@@ -216,13 +216,6 @@ func (v *Value) hashTreeRoot(name string, appendBytes bool) string {
 
 func (v *Value) hashTreeRootContainer(start bool) string {
 	if !start {
-		tmpl := `{{ if .check }}if ::.{{.name}} == nil {
-			::.{{.name}} = new({{.obj}})
-		}
-		{{ end }}if err = ::.{{.name}}.HashTreeRootWith(hh); err != nil {
-			return
-		}`
-		// validate only for fixed structs
 		check := v.isFixed()
 		if v.isListElem() {
 			check = false
@@ -230,10 +223,21 @@ func (v *Value) hashTreeRootContainer(start bool) string {
 		if v.noPtr {
 			check = false
 		}
+		tmpl := ""
+		if check {
+			tmpl = `if ::.{{.name}} != nil {
+			if err = ::.{{.name}}.HashTreeRootWith(hh); err != nil {
+				return
+			}
+		}`
+		} else {
+			tmpl = `if err = ::.{{.name}}.HashTreeRootWith(hh); err != nil {
+			return
+		}`
+		}
 		return execTmpl(tmpl, map[string]interface{}{
-			"name":  v.name,
-			"obj":   v.objRef(),
-			"check": check,
+			"name": v.name,
+			"obj":  v.objRef(),
 		})
 	}
 

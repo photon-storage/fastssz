@@ -14,7 +14,7 @@ func (e *env) marshal(name string, v *Value) string {
 		return ssz.MarshalSSZ(::)
 	}
 
-	// MarshalSSZTo ssz marshals the {{.name}} object to a target array	
+	// MarshalSSZTo ssz marshals the {{.name}} object to a target array
 	func (:: *{{.name}}) MarshalSSZTo(buf []byte) (dst []byte, err error) {
 		dst = buf
 		{{.offset}}
@@ -138,13 +138,6 @@ func (v *Value) marshalVector() (str string) {
 
 func (v *Value) marshalContainer(start bool) string {
 	if !start {
-		tmpl := `{{ if .check }}if ::.{{.name}} == nil {
-			::.{{.name}} = new({{.obj}})
-		}
-		{{ end }}if dst, err = ::.{{.name}}.MarshalSSZTo(dst); err != nil {
-			return
-		}`
-		// validate only for fixed structs
 		check := v.isFixed()
 		if v.isListElem() {
 			check = false
@@ -152,10 +145,21 @@ func (v *Value) marshalContainer(start bool) string {
 		if v.noPtr {
 			check = false
 		}
+		tmpl := ""
+		if check {
+			tmpl = `if ::.{{.name}} != nil {
+			if dst, err = ::.{{.name}}.MarshalSSZTo(dst); err != nil {
+				return
+			}
+		}`
+		} else {
+			tmpl = `if dst, err = ::.{{.name}}.MarshalSSZTo(dst); err != nil {
+			return
+		}`
+		}
 		return execTmpl(tmpl, map[string]interface{}{
-			"name":  v.name,
-			"obj":   v.objRef(),
-			"check": check,
+			"name": v.name,
+			"obj":  v.objRef(),
 		})
 	}
 

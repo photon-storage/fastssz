@@ -211,19 +211,17 @@ func (a *AttestationData) MarshalSSZTo(buf []byte) (dst []byte, err error) {
 	dst = append(dst, a.BeaconBlockHash[:]...)
 
 	// Field (3) 'Source'
-	if a.Source == nil {
-		a.Source = new(Checkpoint)
-	}
-	if dst, err = a.Source.MarshalSSZTo(dst); err != nil {
-		return
+	if a.Source != nil {
+		if dst, err = a.Source.MarshalSSZTo(dst); err != nil {
+			return
+		}
 	}
 
 	// Field (4) 'Target'
-	if a.Target == nil {
-		a.Target = new(Checkpoint)
-	}
-	if dst, err = a.Target.MarshalSSZTo(dst); err != nil {
-		return
+	if a.Target != nil {
+		if dst, err = a.Target.MarshalSSZTo(dst); err != nil {
+			return
+		}
 	}
 
 	return
@@ -290,19 +288,17 @@ func (a *AttestationData) HashTreeRootWith(hh *ssz.Hasher) (err error) {
 	hh.PutBytes(a.BeaconBlockHash[:])
 
 	// Field (3) 'Source'
-	if a.Source == nil {
-		a.Source = new(Checkpoint)
-	}
-	if err = a.Source.HashTreeRootWith(hh); err != nil {
-		return
+	if a.Source != nil {
+		if err = a.Source.HashTreeRootWith(hh); err != nil {
+			return
+		}
 	}
 
 	// Field (4) 'Target'
-	if a.Target == nil {
-		a.Target = new(Checkpoint)
-	}
-	if err = a.Target.HashTreeRootWith(hh); err != nil {
-		return
+	if a.Target != nil {
+		if err = a.Target.HashTreeRootWith(hh); err != nil {
+			return
+		}
 	}
 
 	hh.Merkleize(indx)
@@ -324,19 +320,17 @@ func (a *Attestation) MarshalSSZTo(buf []byte) (dst []byte, err error) {
 	offset += len(a.AggregationBits)
 
 	// Field (1) 'Data'
-	if a.Data == nil {
-		a.Data = new(AttestationData)
-	}
-	if dst, err = a.Data.MarshalSSZTo(dst); err != nil {
-		return
+	if a.Data != nil {
+		if dst, err = a.Data.MarshalSSZTo(dst); err != nil {
+			return
+		}
 	}
 
 	// Field (2) 'Signature'
-	if a.Signature == nil {
-		a.Signature = new(external.Signature)
-	}
-	if dst, err = a.Signature.MarshalSSZTo(dst); err != nil {
-		return
+	if a.Signature != nil {
+		if dst, err = a.Signature.MarshalSSZTo(dst); err != nil {
+			return
+		}
 	}
 
 	// Field (0) 'AggregationBits'
@@ -426,19 +420,17 @@ func (a *Attestation) HashTreeRootWith(hh *ssz.Hasher) (err error) {
 	hh.PutBitlist(a.AggregationBits, 2048)
 
 	// Field (1) 'Data'
-	if a.Data == nil {
-		a.Data = new(AttestationData)
-	}
-	if err = a.Data.HashTreeRootWith(hh); err != nil {
-		return
+	if a.Data != nil {
+		if err = a.Data.HashTreeRootWith(hh); err != nil {
+			return
+		}
 	}
 
 	// Field (2) 'Signature'
-	if a.Signature == nil {
-		a.Signature = new(external.Signature)
-	}
-	if err = a.Signature.HashTreeRootWith(hh); err != nil {
-		return
+	if a.Signature != nil {
+		if err = a.Signature.HashTreeRootWith(hh); err != nil {
+			return
+		}
 	}
 
 	hh.Merkleize(indx)
@@ -557,11 +549,10 @@ func (d *Deposit) MarshalSSZTo(buf []byte) (dst []byte, err error) {
 	}
 
 	// Field (1) 'Data'
-	if d.Data == nil {
-		d.Data = new(DepositData)
-	}
-	if dst, err = d.Data.MarshalSSZTo(dst); err != nil {
-		return
+	if d.Data != nil {
+		if dst, err = d.Data.MarshalSSZTo(dst); err != nil {
+			return
+		}
 	}
 
 	return
@@ -628,11 +619,10 @@ func (d *Deposit) HashTreeRootWith(hh *ssz.Hasher) (err error) {
 	}
 
 	// Field (1) 'Data'
-	if d.Data == nil {
-		d.Data = new(DepositData)
-	}
-	if err = d.Data.HashTreeRootWith(hh); err != nil {
-		return
+	if d.Data != nil {
+		if err = d.Data.HashTreeRootWith(hh); err != nil {
+			return
+		}
 	}
 
 	hh.Merkleize(indx)
@@ -745,11 +735,10 @@ func (i *IndexedAttestation) MarshalSSZTo(buf []byte) (dst []byte, err error) {
 	offset += len(i.AttestationIndices) * 8
 
 	// Field (1) 'Data'
-	if i.Data == nil {
-		i.Data = new(AttestationData)
-	}
-	if dst, err = i.Data.MarshalSSZTo(dst); err != nil {
-		return
+	if i.Data != nil {
+		if dst, err = i.Data.MarshalSSZTo(dst); err != nil {
+			return
+		}
 	}
 
 	// Field (2) 'Signature'
@@ -855,11 +844,10 @@ func (i *IndexedAttestation) HashTreeRootWith(hh *ssz.Hasher) (err error) {
 	}
 
 	// Field (1) 'Data'
-	if i.Data == nil {
-		i.Data = new(AttestationData)
-	}
-	if err = i.Data.HashTreeRootWith(hh); err != nil {
-		return
+	if i.Data != nil {
+		if err = i.Data.HashTreeRootWith(hh); err != nil {
+			return
+		}
 	}
 
 	// Field (2) 'Signature'
@@ -888,11 +876,10 @@ func (p *PendingAttestation) MarshalSSZTo(buf []byte) (dst []byte, err error) {
 	offset += len(p.AggregationBits)
 
 	// Field (1) 'Data'
-	if p.Data == nil {
-		p.Data = new(AttestationData)
-	}
-	if dst, err = p.Data.MarshalSSZTo(dst); err != nil {
-		return
+	if p.Data != nil {
+		if dst, err = p.Data.MarshalSSZTo(dst); err != nil {
+			return
+		}
 	}
 
 	// Field (2) 'InclusionDelay'
@@ -986,11 +973,10 @@ func (p *PendingAttestation) HashTreeRootWith(hh *ssz.Hasher) (err error) {
 	hh.PutBitlist(p.AggregationBits, 2048)
 
 	// Field (1) 'Data'
-	if p.Data == nil {
-		p.Data = new(AttestationData)
-	}
-	if err = p.Data.HashTreeRootWith(hh); err != nil {
-		return
+	if p.Data != nil {
+		if err = p.Data.HashTreeRootWith(hh); err != nil {
+			return
+		}
 	}
 
 	// Field (2) 'InclusionDelay'
@@ -1300,11 +1286,10 @@ func (s *SignedVoluntaryExit) MarshalSSZTo(buf []byte) (dst []byte, err error) {
 	dst = buf
 
 	// Field (0) 'Exit'
-	if s.Exit == nil {
-		s.Exit = new(VoluntaryExit)
-	}
-	if dst, err = s.Exit.MarshalSSZTo(dst); err != nil {
-		return
+	if s.Exit != nil {
+		if dst, err = s.Exit.MarshalSSZTo(dst); err != nil {
+			return
+		}
 	}
 
 	// Field (1) 'Signature'
@@ -1351,11 +1336,10 @@ func (s *SignedVoluntaryExit) HashTreeRootWith(hh *ssz.Hasher) (err error) {
 	indx := hh.Index()
 
 	// Field (0) 'Exit'
-	if s.Exit == nil {
-		s.Exit = new(VoluntaryExit)
-	}
-	if err = s.Exit.HashTreeRootWith(hh); err != nil {
-		return
+	if s.Exit != nil {
+		if err = s.Exit.HashTreeRootWith(hh); err != nil {
+			return
+		}
 	}
 
 	// Field (1) 'Signature'
@@ -1729,19 +1713,17 @@ func (p *ProposerSlashing) MarshalSSZTo(buf []byte) (dst []byte, err error) {
 	dst = buf
 
 	// Field (0) 'Header1'
-	if p.Header1 == nil {
-		p.Header1 = new(SignedBeaconBlockHeader)
-	}
-	if dst, err = p.Header1.MarshalSSZTo(dst); err != nil {
-		return
+	if p.Header1 != nil {
+		if dst, err = p.Header1.MarshalSSZTo(dst); err != nil {
+			return
+		}
 	}
 
 	// Field (1) 'Header2'
-	if p.Header2 == nil {
-		p.Header2 = new(SignedBeaconBlockHeader)
-	}
-	if dst, err = p.Header2.MarshalSSZTo(dst); err != nil {
-		return
+	if p.Header2 != nil {
+		if dst, err = p.Header2.MarshalSSZTo(dst); err != nil {
+			return
+		}
 	}
 
 	return
@@ -1790,19 +1772,17 @@ func (p *ProposerSlashing) HashTreeRootWith(hh *ssz.Hasher) (err error) {
 	indx := hh.Index()
 
 	// Field (0) 'Header1'
-	if p.Header1 == nil {
-		p.Header1 = new(SignedBeaconBlockHeader)
-	}
-	if err = p.Header1.HashTreeRootWith(hh); err != nil {
-		return
+	if p.Header1 != nil {
+		if err = p.Header1.HashTreeRootWith(hh); err != nil {
+			return
+		}
 	}
 
 	// Field (1) 'Header2'
-	if p.Header2 == nil {
-		p.Header2 = new(SignedBeaconBlockHeader)
-	}
-	if err = p.Header2.HashTreeRootWith(hh); err != nil {
-		return
+	if p.Header2 != nil {
+		if err = p.Header2.HashTreeRootWith(hh); err != nil {
+			return
+		}
 	}
 
 	hh.Merkleize(indx)
@@ -1961,19 +1941,17 @@ func (b *BeaconState) MarshalSSZTo(buf []byte) (dst []byte, err error) {
 	dst = ssz.MarshalUint64(dst, b.Slot)
 
 	// Field (3) 'Fork'
-	if b.Fork == nil {
-		b.Fork = new(Fork)
-	}
-	if dst, err = b.Fork.MarshalSSZTo(dst); err != nil {
-		return
+	if b.Fork != nil {
+		if dst, err = b.Fork.MarshalSSZTo(dst); err != nil {
+			return
+		}
 	}
 
 	// Field (4) 'LatestBlockHeader'
-	if b.LatestBlockHeader == nil {
-		b.LatestBlockHeader = new(BeaconBlockHeader)
-	}
-	if dst, err = b.LatestBlockHeader.MarshalSSZTo(dst); err != nil {
-		return
+	if b.LatestBlockHeader != nil {
+		if dst, err = b.LatestBlockHeader.MarshalSSZTo(dst); err != nil {
+			return
+		}
 	}
 
 	// Field (5) 'BlockRoots'
@@ -1995,11 +1973,10 @@ func (b *BeaconState) MarshalSSZTo(buf []byte) (dst []byte, err error) {
 	offset += len(b.HistoricalRoots) * 32
 
 	// Field (8) 'Eth1Data'
-	if b.Eth1Data == nil {
-		b.Eth1Data = new(Eth1Data)
-	}
-	if dst, err = b.Eth1Data.MarshalSSZTo(dst); err != nil {
-		return
+	if b.Eth1Data != nil {
+		if dst, err = b.Eth1Data.MarshalSSZTo(dst); err != nil {
+			return
+		}
 	}
 
 	// Offset (9) 'Eth1DataVotes'
@@ -2055,27 +2032,24 @@ func (b *BeaconState) MarshalSSZTo(buf []byte) (dst []byte, err error) {
 	dst = append(dst, b.JustificationBits...)
 
 	// Field (18) 'PreviousJustifiedCheckpoint'
-	if b.PreviousJustifiedCheckpoint == nil {
-		b.PreviousJustifiedCheckpoint = new(Checkpoint)
-	}
-	if dst, err = b.PreviousJustifiedCheckpoint.MarshalSSZTo(dst); err != nil {
-		return
+	if b.PreviousJustifiedCheckpoint != nil {
+		if dst, err = b.PreviousJustifiedCheckpoint.MarshalSSZTo(dst); err != nil {
+			return
+		}
 	}
 
 	// Field (19) 'CurrentJustifiedCheckpoint'
-	if b.CurrentJustifiedCheckpoint == nil {
-		b.CurrentJustifiedCheckpoint = new(Checkpoint)
-	}
-	if dst, err = b.CurrentJustifiedCheckpoint.MarshalSSZTo(dst); err != nil {
-		return
+	if b.CurrentJustifiedCheckpoint != nil {
+		if dst, err = b.CurrentJustifiedCheckpoint.MarshalSSZTo(dst); err != nil {
+			return
+		}
 	}
 
 	// Field (20) 'FinalizedCheckpoint'
-	if b.FinalizedCheckpoint == nil {
-		b.FinalizedCheckpoint = new(Checkpoint)
-	}
-	if dst, err = b.FinalizedCheckpoint.MarshalSSZTo(dst); err != nil {
-		return
+	if b.FinalizedCheckpoint != nil {
+		if dst, err = b.FinalizedCheckpoint.MarshalSSZTo(dst); err != nil {
+			return
+		}
 	}
 
 	// Offset (21) 'InactivityScores'
@@ -2083,19 +2057,17 @@ func (b *BeaconState) MarshalSSZTo(buf []byte) (dst []byte, err error) {
 	offset += len(b.InactivityScores) * 8
 
 	// Field (22) 'CurrentSyncCommitee'
-	if b.CurrentSyncCommitee == nil {
-		b.CurrentSyncCommitee = new(SyncCommitteeMinimal)
-	}
-	if dst, err = b.CurrentSyncCommitee.MarshalSSZTo(dst); err != nil {
-		return
+	if b.CurrentSyncCommitee != nil {
+		if dst, err = b.CurrentSyncCommitee.MarshalSSZTo(dst); err != nil {
+			return
+		}
 	}
 
 	// Field (23) 'NextSyncCommittee'
-	if b.NextSyncCommittee == nil {
-		b.NextSyncCommittee = new(SyncCommitteeMinimal)
-	}
-	if dst, err = b.NextSyncCommittee.MarshalSSZTo(dst); err != nil {
-		return
+	if b.NextSyncCommittee != nil {
+		if dst, err = b.NextSyncCommittee.MarshalSSZTo(dst); err != nil {
+			return
+		}
 	}
 
 	// Field (7) 'HistoricalRoots'
@@ -2484,19 +2456,17 @@ func (b *BeaconState) HashTreeRootWith(hh *ssz.Hasher) (err error) {
 	hh.PutUint64(b.Slot)
 
 	// Field (3) 'Fork'
-	if b.Fork == nil {
-		b.Fork = new(Fork)
-	}
-	if err = b.Fork.HashTreeRootWith(hh); err != nil {
-		return
+	if b.Fork != nil {
+		if err = b.Fork.HashTreeRootWith(hh); err != nil {
+			return
+		}
 	}
 
 	// Field (4) 'LatestBlockHeader'
-	if b.LatestBlockHeader == nil {
-		b.LatestBlockHeader = new(BeaconBlockHeader)
-	}
-	if err = b.LatestBlockHeader.HashTreeRootWith(hh); err != nil {
-		return
+	if b.LatestBlockHeader != nil {
+		if err = b.LatestBlockHeader.HashTreeRootWith(hh); err != nil {
+			return
+		}
 	}
 
 	// Field (5) 'BlockRoots'
@@ -2536,11 +2506,10 @@ func (b *BeaconState) HashTreeRootWith(hh *ssz.Hasher) (err error) {
 	}
 
 	// Field (8) 'Eth1Data'
-	if b.Eth1Data == nil {
-		b.Eth1Data = new(Eth1Data)
-	}
-	if err = b.Eth1Data.HashTreeRootWith(hh); err != nil {
-		return
+	if b.Eth1Data != nil {
+		if err = b.Eth1Data.HashTreeRootWith(hh); err != nil {
+			return
+		}
 	}
 
 	// Field (9) 'Eth1DataVotes'
@@ -2661,27 +2630,24 @@ func (b *BeaconState) HashTreeRootWith(hh *ssz.Hasher) (err error) {
 	hh.PutBytes(b.JustificationBits)
 
 	// Field (18) 'PreviousJustifiedCheckpoint'
-	if b.PreviousJustifiedCheckpoint == nil {
-		b.PreviousJustifiedCheckpoint = new(Checkpoint)
-	}
-	if err = b.PreviousJustifiedCheckpoint.HashTreeRootWith(hh); err != nil {
-		return
+	if b.PreviousJustifiedCheckpoint != nil {
+		if err = b.PreviousJustifiedCheckpoint.HashTreeRootWith(hh); err != nil {
+			return
+		}
 	}
 
 	// Field (19) 'CurrentJustifiedCheckpoint'
-	if b.CurrentJustifiedCheckpoint == nil {
-		b.CurrentJustifiedCheckpoint = new(Checkpoint)
-	}
-	if err = b.CurrentJustifiedCheckpoint.HashTreeRootWith(hh); err != nil {
-		return
+	if b.CurrentJustifiedCheckpoint != nil {
+		if err = b.CurrentJustifiedCheckpoint.HashTreeRootWith(hh); err != nil {
+			return
+		}
 	}
 
 	// Field (20) 'FinalizedCheckpoint'
-	if b.FinalizedCheckpoint == nil {
-		b.FinalizedCheckpoint = new(Checkpoint)
-	}
-	if err = b.FinalizedCheckpoint.HashTreeRootWith(hh); err != nil {
-		return
+	if b.FinalizedCheckpoint != nil {
+		if err = b.FinalizedCheckpoint.HashTreeRootWith(hh); err != nil {
+			return
+		}
 	}
 
 	// Field (21) 'InactivityScores'
@@ -2700,19 +2666,17 @@ func (b *BeaconState) HashTreeRootWith(hh *ssz.Hasher) (err error) {
 	}
 
 	// Field (22) 'CurrentSyncCommitee'
-	if b.CurrentSyncCommitee == nil {
-		b.CurrentSyncCommitee = new(SyncCommitteeMinimal)
-	}
-	if err = b.CurrentSyncCommitee.HashTreeRootWith(hh); err != nil {
-		return
+	if b.CurrentSyncCommitee != nil {
+		if err = b.CurrentSyncCommitee.HashTreeRootWith(hh); err != nil {
+			return
+		}
 	}
 
 	// Field (23) 'NextSyncCommittee'
-	if b.NextSyncCommittee == nil {
-		b.NextSyncCommittee = new(SyncCommitteeMinimal)
-	}
-	if err = b.NextSyncCommittee.HashTreeRootWith(hh); err != nil {
-		return
+	if b.NextSyncCommittee != nil {
+		if err = b.NextSyncCommittee.HashTreeRootWith(hh); err != nil {
+			return
+		}
 	}
 
 	hh.Merkleize(indx)
@@ -3120,11 +3084,10 @@ func (b *BeaconBlockBody) MarshalSSZTo(buf []byte) (dst []byte, err error) {
 	dst = append(dst, b.RandaoReveal...)
 
 	// Field (1) 'Eth1Data'
-	if b.Eth1Data == nil {
-		b.Eth1Data = new(Eth1Data)
-	}
-	if dst, err = b.Eth1Data.MarshalSSZTo(dst); err != nil {
-		return
+	if b.Eth1Data != nil {
+		if dst, err = b.Eth1Data.MarshalSSZTo(dst); err != nil {
+			return
+		}
 	}
 
 	// Field (2) 'Graffiti'
@@ -3157,11 +3120,10 @@ func (b *BeaconBlockBody) MarshalSSZTo(buf []byte) (dst []byte, err error) {
 	offset += len(b.VoluntaryExits) * 112
 
 	// Field (8) 'SyncAggregate'
-	if b.SyncAggregate == nil {
-		b.SyncAggregate = new(SyncAggregate)
-	}
-	if dst, err = b.SyncAggregate.MarshalSSZTo(dst); err != nil {
-		return
+	if b.SyncAggregate != nil {
+		if dst, err = b.SyncAggregate.MarshalSSZTo(dst); err != nil {
+			return
+		}
 	}
 
 	// Field (3) 'ProposerSlashings'
@@ -3446,11 +3408,10 @@ func (b *BeaconBlockBody) HashTreeRootWith(hh *ssz.Hasher) (err error) {
 	hh.PutBytes(b.RandaoReveal)
 
 	// Field (1) 'Eth1Data'
-	if b.Eth1Data == nil {
-		b.Eth1Data = new(Eth1Data)
-	}
-	if err = b.Eth1Data.HashTreeRootWith(hh); err != nil {
-		return
+	if b.Eth1Data != nil {
+		if err = b.Eth1Data.HashTreeRootWith(hh); err != nil {
+			return
+		}
 	}
 
 	// Field (2) 'Graffiti'
@@ -3537,11 +3498,10 @@ func (b *BeaconBlockBody) HashTreeRootWith(hh *ssz.Hasher) (err error) {
 	}
 
 	// Field (8) 'SyncAggregate'
-	if b.SyncAggregate == nil {
-		b.SyncAggregate = new(SyncAggregate)
-	}
-	if err = b.SyncAggregate.HashTreeRootWith(hh); err != nil {
-		return
+	if b.SyncAggregate != nil {
+		if err = b.SyncAggregate.HashTreeRootWith(hh); err != nil {
+			return
+		}
 	}
 
 	hh.Merkleize(indx)
@@ -3558,11 +3518,10 @@ func (s *SignedBeaconBlockHeader) MarshalSSZTo(buf []byte) (dst []byte, err erro
 	dst = buf
 
 	// Field (0) 'Header'
-	if s.Header == nil {
-		s.Header = new(BeaconBlockHeader)
-	}
-	if dst, err = s.Header.MarshalSSZTo(dst); err != nil {
-		return
+	if s.Header != nil {
+		if dst, err = s.Header.MarshalSSZTo(dst); err != nil {
+			return
+		}
 	}
 
 	// Field (1) 'Signature'
@@ -3616,11 +3575,10 @@ func (s *SignedBeaconBlockHeader) HashTreeRootWith(hh *ssz.Hasher) (err error) {
 	indx := hh.Index()
 
 	// Field (0) 'Header'
-	if s.Header == nil {
-		s.Header = new(BeaconBlockHeader)
-	}
-	if err = s.Header.HashTreeRootWith(hh); err != nil {
-		return
+	if s.Header != nil {
+		if err = s.Header.HashTreeRootWith(hh); err != nil {
+			return
+		}
 	}
 
 	// Field (1) 'Signature'
@@ -4347,11 +4305,10 @@ func (b *BeaconBlockBodyMinimal) MarshalSSZTo(buf []byte) (dst []byte, err error
 	dst = append(dst, b.RandaoReveal...)
 
 	// Field (1) 'Eth1Data'
-	if b.Eth1Data == nil {
-		b.Eth1Data = new(Eth1Data)
-	}
-	if dst, err = b.Eth1Data.MarshalSSZTo(dst); err != nil {
-		return
+	if b.Eth1Data != nil {
+		if dst, err = b.Eth1Data.MarshalSSZTo(dst); err != nil {
+			return
+		}
 	}
 
 	// Field (2) 'Graffiti'
@@ -4384,11 +4341,10 @@ func (b *BeaconBlockBodyMinimal) MarshalSSZTo(buf []byte) (dst []byte, err error
 	offset += len(b.VoluntaryExits) * 112
 
 	// Field (8) 'SyncAggregate'
-	if b.SyncAggregate == nil {
-		b.SyncAggregate = new(SyncAggregateMinimal)
-	}
-	if dst, err = b.SyncAggregate.MarshalSSZTo(dst); err != nil {
-		return
+	if b.SyncAggregate != nil {
+		if dst, err = b.SyncAggregate.MarshalSSZTo(dst); err != nil {
+			return
+		}
 	}
 
 	// Field (3) 'ProposerSlashings'
@@ -4673,11 +4629,10 @@ func (b *BeaconBlockBodyMinimal) HashTreeRootWith(hh *ssz.Hasher) (err error) {
 	hh.PutBytes(b.RandaoReveal)
 
 	// Field (1) 'Eth1Data'
-	if b.Eth1Data == nil {
-		b.Eth1Data = new(Eth1Data)
-	}
-	if err = b.Eth1Data.HashTreeRootWith(hh); err != nil {
-		return
+	if b.Eth1Data != nil {
+		if err = b.Eth1Data.HashTreeRootWith(hh); err != nil {
+			return
+		}
 	}
 
 	// Field (2) 'Graffiti'
@@ -4764,11 +4719,10 @@ func (b *BeaconBlockBodyMinimal) HashTreeRootWith(hh *ssz.Hasher) (err error) {
 	}
 
 	// Field (8) 'SyncAggregate'
-	if b.SyncAggregate == nil {
-		b.SyncAggregate = new(SyncAggregateMinimal)
-	}
-	if err = b.SyncAggregate.HashTreeRootWith(hh); err != nil {
-		return
+	if b.SyncAggregate != nil {
+		if err = b.SyncAggregate.HashTreeRootWith(hh); err != nil {
+			return
+		}
 	}
 
 	hh.Merkleize(indx)
