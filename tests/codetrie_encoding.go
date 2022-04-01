@@ -2,7 +2,7 @@
 package tests
 
 import (
-	ssz "github.com/ferranbt/fastssz"
+	ssz "github.com/photon-storage/fastssz"
 )
 
 // MarshalSSZ ssz marshals the Metadata object
